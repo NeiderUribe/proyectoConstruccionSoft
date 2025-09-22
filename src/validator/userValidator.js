@@ -92,7 +92,13 @@ const updateUserValidator = [
         .isBoolean().withMessage('El campo activo debe ser booleano'),
 ];
 
+const deleteUserByIdValidator = [
+    param('id')
+        .isInt().withMessage('El id debe ser un número entero válido')
+];
+
 module.exports = {
     createUserValidator,
-    updateUserValidator
+    updateUserValidator,
+    deleteUserByIdValidator
 };

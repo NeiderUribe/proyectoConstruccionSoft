@@ -11,4 +11,17 @@ async function createUser(req, res, next) {
     }
 }
 
-module.exports = {createUser};
+async function deleteUser(req, res, next) {
+    try {
+        const { id } = req.params;
+        const deleteUser = await userServices.deleteUserById(id);
+        if(!deleteUser) return res.status(404).json({ok: false, message: 'Usuario no encontrado'});
+    } catch (error) {
+        next(error); //Esto para que sea el middleware el que lo interprete
+    }
+}
+
+module.exports = {
+    createUser,
+    deleteUser
+};

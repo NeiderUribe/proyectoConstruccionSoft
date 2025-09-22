@@ -12,7 +12,7 @@ async function createUser(user) {
         const {name, email, phone, password, address, neighboorhod} = user;
         //Creamos un objeto para hacer el query 
         const [result] = await conn.query(
-            'INSERT INTO USERS (NAME, EMAIL, PHONE, PASSWORD, ADDRESS, NIEGHBOORHOD) VALUES(?,?,?,?,?,?)',
+            'INSERT INTO USERS (NAME, EMAIL, PHONE, PASSWORD, ADDRESS, NEIGHBORHOOD, IS_ACTIVE) VALUES(?,?,?,?,?,?,?)',
             [name, email, phone, password, address, neighboorhod]
         );
         //Creamos otro objeto para saber cuantas clumnas fueron afectadas
@@ -22,4 +22,24 @@ async function createUser(user) {
         //mostramos el error por consola
         console.error(e.message);
     }
-}
+
+    conn.release();
+};
+
+async function deleteUserById(id) {
+    const conn = await db.getConnection();
+
+    try {
+        const [result] = await conn.query('DELETE FROM USERS WHERE id = ?', [id]);
+        return result.affectedRows > 0; 
+    } catch (error) {
+        console.log('Ocurrio un error al eliminar por id', error);
+    } finally{
+        conn.release();
+    }
+};
+
+module.exports = {
+    createUser,
+    deleteUserById
+} 

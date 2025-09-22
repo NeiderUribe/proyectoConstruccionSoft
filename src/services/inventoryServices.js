@@ -1,9 +1,9 @@
 const db = require('../dataBase/connection');
 
-async function createInventory(Inventory) {
+async function createInventory(inventory) {
     const conn = await db.getConnection();
     try{
-        const { name, description, amount, category_id , price, unit_measurement} = Order_detail;
+        const { name, description, amount, category_id , price, unit_measurement} = inventory;
         const [result] = await conn.query(
             'INSERT INTO users (name, description, amount, category_id , price, unit_measurement) VALUES (?, ?, ?, ?, ?, ?)'
             [name, description, amount, category_id , price, unit_measurement]);

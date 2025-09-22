@@ -23,7 +23,13 @@ const createUserValidator = [
     body('mail')
         .trim()
         .notEmpty().withMessage('El correo es obligatorio')
-        .isEmail().withMessage('Debe ser un correo electrónico válido'),
+        .isEmail().withMessage('Debe ser un correo electrónico válido')
+        .custom(async (mail) => {
+            const existingUser = await userServices.getUserByEmail(mail);
+            if (existingUser) {
+                throw new Error('El correo ya está en uso');
+            }return true;
+        }),
 
     body('password')
         .trim()

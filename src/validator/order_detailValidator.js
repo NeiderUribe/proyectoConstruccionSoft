@@ -2,7 +2,7 @@ const {ExpressValidator} = require('express-validator');
 const { body, param } = require('express-validator');
 const {order_detailServices} = require('../services/order_detailServices');
 
-const createorder_detailValidator = [
+const createOrder_detailValidator = [
 body('amount') //cantidad
         .trim() 
         .notEmpty().withMessage('La cantidad es obligatoria')

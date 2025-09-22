@@ -2,7 +2,7 @@ const {ExpressValidator} = require('express-validator');
 const { body, param } = require('express-validator');
 const {productServices} = require('../services/productServices');
 
-const createInventoryValidator = [
+const createProductValidator = [
     body('name')
         .trim()
         .notEmpty().withMessage('El nombre del producto es obligatorio')

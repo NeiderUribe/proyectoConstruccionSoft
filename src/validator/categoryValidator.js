@@ -2,7 +2,7 @@ const {ExpressValidator} = require('express-validator');
 const { body, param } = require('express-validator');
 const {categoryServices} = require('../services/categoryServices');
 
-const createcategoryValidator = [
+const createCategoryValidator = [
     body('name')
         .trim() //vacios al inicio y final
         .notEmpty().withMessage('El nombre del producto es obligatorio')

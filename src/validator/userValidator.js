@@ -45,10 +45,10 @@ const createUserValidator = [
         .trim()
         .notEmpty().withMessage('La direccion es obligatoria'),
 
-    body('roleId')
-        .trim()
-        .optional()
-        .isInt({ min: 1 }).withMessage('El rol debe ser un número entero válido'),
+    // body('roleId')
+    //     .trim()
+    //     .optional()
+    //     .isInt({ min: 1 }).withMessage('El rol debe ser un número entero válido'),
 
     body('is_active')
         .optional()
@@ -89,7 +89,7 @@ const updateUserValidator = [
 
     body('is_active')
         .optional()
-        .isBoolean().withMessage('El campo activo debe ser booleano')
+        .isBoolean().withMessage('El campo activo debe ser booleano'),
 ];
 
 module.exports = {

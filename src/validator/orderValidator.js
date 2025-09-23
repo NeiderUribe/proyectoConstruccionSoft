@@ -1,6 +1,6 @@
-const {ExpressValidator} = require('express-validator');
+const { ExpressValidator } = require('express-validator');
 const { body, param } = require('express-validator');
-const {orderServices} = require('../services/orderServices');
+const { orderServices } = require('../services/orderServices');
 
 const createOrderValidator = [
     body('order_date')//fecha de pedido
@@ -13,4 +13,25 @@ const createOrderValidator = [
         .isFloat({ min: 0 }).withMessage('El total debe ser un número decimal positivo'),
 ];
 
-module.exports = { createOrderValidator };
+const validateOrderId = [
+    param('id')
+        .isInt({ min: 1 }).withMessage('El ID de la orden debe ser un número entero positivo')
+];
+
+const updateOrderValidator = [
+    ...validateOrderId,
+
+    body('order_date')
+        .optional()
+        .isISO8601().withMessage('La fecha debe tener formato válido (YYYY-MM-DD)'),
+
+    body('total')
+        .optional()
+        .trim()
+        .isFloat({ min: 0 }).withMessage('El total debe ser un número decimal positivo'),
+];
+
+const deleteOrderValidator = [...validateOrderId];
+
+module.exports = {createOrderValidator,updateOrderValidator,deleteOrderValidator,validateOrderId};
+

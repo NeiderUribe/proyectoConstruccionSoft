@@ -1,9 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const InventoryControllers = require('../controllers/inventoryControllers');
+const inventoryControllers = require('../controllers/inventoryControllers');
 const { createInventoryValidator } = require('../validator/inventoryValidator');
 const { validateResults } = require('../middlewares/validationResult');
 
-router.post('/', createInventoryValidator, validateResults, InventoryControllers.createInventory);
+router.post('/', createInventoryValidator, validateResults, inventoryControllers.createInventory);
+router.get('/', inventoryControllers.getAllInventory);
+router.get('/:id', inventoryControllers.getInventoryById);
+router.put('/:id', createInventoryValidator, validateResults, inventoryControllers.updateInventory);
+router.delete('/:id', inventoryControllers.deleteInventory);
 
 module.exports = router;

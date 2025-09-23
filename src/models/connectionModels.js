@@ -9,12 +9,4 @@ const Category = require('./Category');
 // Activar relaciones
 require('./relaciones');
 
-module.exports = {
-    sequelize,
-    User,
-    Order,
-    Product,
-    OrderDetail,
-    Inventory,
-    Category
-};
+module.exports = { sequelize, User, Order, Product, OrderDetail, Inventory, Category};

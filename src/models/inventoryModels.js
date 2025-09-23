@@ -25,7 +25,7 @@ const Inventory  = sequelize.define('Inventory', {
         allowNull: false        
     },
 
-    categoryId: {
+    Id_category: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {

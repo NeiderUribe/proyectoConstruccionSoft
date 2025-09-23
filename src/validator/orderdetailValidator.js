@@ -46,5 +46,3 @@ const updateOrderdetailValidator = [
 const deleteOrderdetailValidator = [...validateOrderdetailId];
 
 module.exports = {createOrderdetailValidator,updateOrderdetailValidator,deleteOrderdetailValidator,validateOrderdetailId};
-
-module.exports = { createOrderdetailValidator };

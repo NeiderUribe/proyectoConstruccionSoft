@@ -6,7 +6,7 @@ const { validateResults } = require('../middlewares/validationResult');
 
 router.post('/', createCategoryValidator, validateResults, categoryControllers.createCategory);
 
-router.get('/', categoryControllers.getAllCategories);
+router.get('/', categoryControllers.getCategory);
 
 router.get('/:id', categoryControllers.getCategoryById);
 

@@ -5,7 +5,7 @@ const { createProductValidator } = require('../validator/productValidator');
 const { validateResults } = require('../middlewares/validationResult');
 
 router.post('/', createProductValidator, validateResults, productControllers.createProduct);
-router.get('/', productControllers.getAllProducts);
+router.get('/', productControllers.getProduct);
 router.get('/:id', productControllers.getProductById);
 router.put('/:id', createProductValidator, validateResults, productControllers.updateProduct);
 router.delete('/:id', productControllers.deleteProduct);

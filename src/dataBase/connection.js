@@ -33,19 +33,8 @@ async function initDB() {
             CREATE TABLE IF NOT EXISTS Category  (
                 id_category INT AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(100) NOT NULL,
-                description VARCHAR(100) NOT NULL,
+                description VARCHAR(100) NOT NULL
             )
-        `);
-
-        await connection.query(`
-            CREATE TABLE IF NOT EXISTS Product   (
-                id_Product INT AUTO_INCREMENT PRIMARY KEY,
-                id_inventory INT,
-                FOREIGN KEY (id_inventory) REFERENCES Inventory(id_inventory),
-                name VARCHAR(100) NOT NULL,
-                description VARCHAR(100) NOT NULL,
-                price DECIMAL(10,2) NOT NULL,
-                image VARCHAR(255),
         `);
 
         await connection.query(`
@@ -62,7 +51,19 @@ async function initDB() {
         `);
 
         await connection.query(`
-            CREATE TABLE IF NOT EXISTS Order   (
+            CREATE TABLE IF NOT EXISTS Product   (
+                id_Product INT AUTO_INCREMENT PRIMARY KEY,
+                id_inventory INT,
+                FOREIGN KEY (id_inventory) REFERENCES Inventory(id_inventory),
+                name VARCHAR(100) NOT NULL,
+                description VARCHAR(100) NOT NULL,
+                price DECIMAL(10,2) NOT NULL,
+                image VARCHAR(255)
+            )
+        `);
+
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS Orders   (
                 id_order INT AUTO_INCREMENT PRIMARY KEY,
                 id_user INT,
                 FOREIGN KEY (id_user) REFERENCES user(id_user),
@@ -76,7 +77,7 @@ async function initDB() {
             CREATE TABLE IF NOT EXISTS Orderdetail  (
                 id_Orderdetail INT AUTO_INCREMENT PRIMARY KEY,
                 id_order INT,
-                FOREIGN KEY (id_order) REFERENCES Order(id_order),
+                FOREIGN KEY (id_order) REFERENCES Orders(id_order),
                 id_product INT,
                 FOREIGN KEY (id_product) REFERENCES Inventory(id_inventory),
                 amount INT NOT NULL,

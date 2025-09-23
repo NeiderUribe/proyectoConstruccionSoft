@@ -1,4 +1,4 @@
-const Order_detailServices = require('../services/orderdetailServices');
+const OrderdetailServices = require('../services/orderdetailServices');
 
 async function createOrderdetail(req, res, next) {
     try {
@@ -18,7 +18,7 @@ async function createOrderdetail(req, res, next) {
 
 async function getOrderdetail(req, res, next) {
     try {
-        const Orderdetail = await OrderdetailServices.getAllOrderdetail();
+        const Orderdetail = await OrderdetailServices.getAllOrderDetail();
         res.status(200).json({
             ok: true,
             data: Orderdetail

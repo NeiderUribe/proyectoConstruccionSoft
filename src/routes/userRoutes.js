@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const userControllers = require('../controllers/userControllers');
-const { createUserValidator } = require('../validator/userValidator');
+const { createUserValidator } = require('../validator/usersValidator');
 const { validateResults } = require('../middlewares/validationResult');
+//const userValidator = require('../validator/userValidator');
+
 
 
 //get son consultas = select* from table (id, no,nombre)

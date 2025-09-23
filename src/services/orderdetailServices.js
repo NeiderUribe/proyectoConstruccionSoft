@@ -14,7 +14,7 @@ async function createOrderdetail(detail) {
     }
 }
 
-async function getAllOrderDetails() {
+async function getAllOrderDetail() {
     const conn = await db.getConnection();
     try {
         const [rows] = await conn.query('SELECT * FROM Orderdetail');
@@ -60,4 +60,4 @@ async function deleteOrderDetail(id) {
     }
 }
 
-module.exports = {createOrderdetail, getAllOrderDetails, getOrderDetailById,updateOrderDetail, deleteOrderDetail};
+module.exports = {createOrderdetail, getAllOrderDetail, getOrderDetailById,updateOrderDetail, deleteOrderDetail};

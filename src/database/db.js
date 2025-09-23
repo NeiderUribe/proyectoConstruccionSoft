@@ -1,45 +1,43 @@
-//const { Sequelize } = require('sequelize');
 const mysql = require('mysql2/promise');
 require('dotenv').config();
 
 //const sequelize = new Sequelize(
 const pool = mysql.createPool({
-    hoost: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME || 'comidasRapidas',
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'comidaRapida',
     waitForConnections: true,
-    //connectionLimit: 10 //Para limitar la cantidad de peticiones al servidor 
+    connectionLimit: 10, //Para limitar la cantidad de peticiones al servidor 
+    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306
 });
 
-// sequelize.authenticate()
-//     .then(()=> console.log('Conexion a la BD Exitosa!'))
-//     .catch(e => console.error('Error al conectar con la BD', e));
-
 async function initDB() {
-    try{
-        const connection = await pool.getConnection();
-        
+    let connection;
+    try {
+        connection = await pool.getConnection();
+
         await connection.query(`
-            CREATE TABLE IF NOT EXIST users(
-            ID INT AUTO_INCREMENT PRIMARY KEY,
-            NAME VARCHAR(50) NOT NULL,
-            EMAIL VARCHAR(100) NOT NULL,
-            PHONE VARCHAR(10) NOT NULL,
-            PASSWORD VARCHAR(100) NOT NULL,
-            ADDRESS VARCHAR(100) NOT NULL,
-            NEIGHBORHOOD VARCHAR(100) NOT NULL,
-            IS_ACTIVE BOOELAN DEFAULT=TRUE 
+            CREATE TABLE IF NOT EXISTS users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(150) NOT NULL,
+                email VARCHAR(255) NOT NULL UNIQUE,
+                phone VARCHAR(30),
+                password VARCHAR(255) NOT NULL,
+                address VARCHAR(255),
+                neighborhood VARCHAR(150),
+                is_active BOOLEAN DEFAULT TRUE
             )
         `);
 
-        connection.release();
         console.log('Base de datos iniciada correctamente');
     }
-    catch(e){
-        console.log('Error al iniciar la Base de Datos', e);
+    catch (e) {
+        console.error('Error al iniciar la Base de Datos', e);
+    }finally{
+        if(connection) connection.release();
     }
-}    
+}
 
 initDB();
 

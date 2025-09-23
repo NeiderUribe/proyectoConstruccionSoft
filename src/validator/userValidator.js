@@ -1,49 +1,47 @@
-const { ExpressValidator } = require('express-validator')
-
-const { body, param } = require(ExpressValidator);
+const { body, param } = require('express-validator');
 
 //Debe existir el archivo en services primero userServices.js 
-const { userServices } = require('../services/userServices');
+const userServices = require('../services/userServices');
 
 const createUserValidator = [
     body('name')
         .trim()
-        .notEmpty().withMessage('El nombre es obligatorio')
+        .notEmpty().withMessage('Name is required')
         .isString().withMessage('El nombre debe ser texto')
-        .isLength({ min: 3, max: 150 }).withMessage('El nombre debe tener entre 3 y 150 caracteres'),
+        .isLength({ min: 3, max: 100 }).withMessage('El nombre debe tener entre 3 y 150 caracteres'),
 
     body('email')
         .trim()
-        .notEmpty().withMessage('El email es obligatorio')
-        .isEmail().withMessage('Debe ser un email válido')
+        .notEmpty().withMessage('Email is required')
+        .isEmail().withMessage('Invalid email')
         .custom(async (value) => {
             // Verificar si ya existe el correo
             const user = await userServices.findByEmail(value);
             if (user) {
-                throw new Error('El email ya está registrado');
+                throw new Error('Email already in use');
             }
             return true;
         }),
 
     body('phone')
         .trim()
-        .notEmpty().withMessage('El telefono es obligatorio')
+        .notEmpty().withMessage('Telephone is required')
         .isString()
-        .isLength({ max: 10 }).withMessage('El teléfono no debe exceder 10 caracteres'),
+        .isLength({ max: 10 }).withMessage('Phone max length is 10'),
 
     body('password')
         .trim()
-        .notEmpty().withMessage('La contraseña es obligatoria')
+        .notEmpty().withMessage('Password is required')
         .isString()
-        .isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres'),
+        .isLength({ min: 8 }).withMessage('Password must be at least 8 chars'),
 
-    body('adress')
+    body('address')
         .trim()
-        .notEmpty().withMessage('La direccion es obligatoria'),
+        .notEmpty().withMessage('Address is required'),
 
     body('neighborhood')
         .trim()
-        .notEmpty().withMessage('La direccion es obligatoria'),
+        .notEmpty().withMessage('Neighborhood is required'),
 
     // body('roleId')
     //     .trim()
@@ -52,7 +50,7 @@ const createUserValidator = [
 
     body('is_active')
         .optional()
-        .isBoolean().withMessage('El campo activo debe ser booleano')
+        .isBoolean().withMessage('is_active must be boolean')
 ];
 
 // Validación para actualización de usuario (PUT/PATCH)
@@ -94,7 +92,7 @@ const updateUserValidator = [
 
 const deleteUserByIdValidator = [
     param('id')
-        .isInt().withMessage('El id debe ser un número entero válido')
+        .isInt().withMessage('Id must be an integer')
 ];
 
 module.exports = {

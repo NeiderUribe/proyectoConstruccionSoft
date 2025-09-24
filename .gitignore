@@ -1,0 +1,53 @@
+//Aca van los archivos o carpetas que no queremos subir al GitHub
+# =========================
+# Node.js / Express Project
+# =========================
+
+# Node modules (nunca se suben, se regeneran con npm install)
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Entornos
+.env
+.env.*.local
+
+# Cache / Coverage
+.cache/
+coverage/
+
+# Build / Output
+dist/
+build/
+tmp/
+temp/
+
+# Sequelize
+sequelize-meta.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor configs
+.vscode/
+.idea/
+
+# Lockfiles (opcional si usas solo uno)
+# Si usas npm: manten package-lock.json y elimina yarn.lock
+# Si usas yarn: manten yarn.lock y elimina package-lock.json
+# Si usas pnpm: manten pnpm-lock.yaml
+yarn.lock
+pnpm-lock.yaml
+
+# Test output
+*.lcov
+
+# Otros
+*.swp

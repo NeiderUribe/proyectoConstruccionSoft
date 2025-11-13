@@ -1,6 +1,6 @@
 const { ExpressValidator } = require('express-validator');
 const { body, param } = require('express-validator');
-const { userServices } = require('../services/userServices');
+const UserServices = require('../services/userServices');
 
 //crear usuario
 const createUserValidator = [
@@ -26,7 +26,7 @@ const createUserValidator = [
         .notEmpty().withMessage('El correo es obligatorio')
         .isEmail().withMessage('Debe ser un correo electrónico válido')
         .custom(async (mail) => {
-            const existingUser = await userServices.getUserByEmail(mail);
+            const existingUser = await UserServices.getUserByEmail(mail);
             if (existingUser) {
                 throw new Error('El correo ya está en uso');
             } return true;
@@ -72,7 +72,7 @@ const updateUserValidator = [
         .trim()
         .isEmail().withMessage('Debe ser un correo válido')
         .custom(async (mail, { req }) => {
-            const existingUser = await userServices.getUserByEmail(mail);
+            const existingUser = await UserServices.getUserByEmail(mail);
             if (existingUser && existingUser.id_user !== parseInt(req.params.id)) {
                 throw new Error('El correo ya está en uso por otro usuario');
             }

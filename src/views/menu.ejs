@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo"><h1>🍔 Tierra Querida</h1></div>
+                <nav class="nav">
+                    <a href="/" class="nav-link">Inicio</a>
+                    <a href="/menu" class="nav-link active">Menú</a>
+                    <a href="/cart" class="nav-link btn-primary">🛒 Carrito</a>
+                    <a href="/logout" class="nav-link">Cerrar Sesión</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Nuestro Menú</h1>
+                <p>Bienvenido, <%= userName %></p>
+            </div>
+
+            <% if (error) { %>
+                <div class="alert alert-error"><strong>Error:</strong> <%= error %></div>
+            <% } %>
+
+            <% if (success) { %>
+                <div class="alert alert-success"><strong>Éxito:</strong> <%= success %></div>
+            <% } %>
+
+            <div class="products-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <% if (products && products.length > 0) { %>
+                    <% products.forEach(product => { %>
+                        <div class="product-card" style="background: white; border-radius: 15px; padding: 1.5rem; box-shadow: var(--shadow); transition: all 0.3s;">
+                            <div style="text-align: center; margin-bottom: 1rem;">
+                                <% if (product.image) { %>
+                                    <img src="<%= product.image %>" alt="<%= product.name %>" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
+                                <% } else { %>
+                                    <div style="width: 100%; height: 200px; background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 4rem;">
+                                        🍔
+                                    </div>
+                                <% } %>
+                            </div>
+                            <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem; color: var(--text-dark);"><%= product.name %></h3>
+                            <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;"><%= product.description %></p>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <span style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);">$<%= parseFloat(product.price).toFixed(2) %></span>
+                            </div>
+                            <form action="/cart/add" method="POST" style="display: flex; gap: 0.5rem;">
+                                <input type="hidden" name="product_id" value="<%= product.id_Product %>">
+                                <input type="number" name="quantity" value="1" min="1" style="width: 60px; padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 5px;">
+                                <button type="submit" class="btn btn-primary" style="flex: 1;">Agregar</button>
+                            </form>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="empty-state">
+                        <p>No hay productos disponibles en este momento</p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+

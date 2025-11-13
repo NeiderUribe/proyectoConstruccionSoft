@@ -5,7 +5,7 @@ async function createProduct(product) {
     try {
         const { Id_inventory, name, description, price, image } = product;
         const [result] = await conn.query(
-            'INSERT INTO product (Id_inventory, name, description, price, image ) VALUES (?, ?, ?, ?, ?)',
+            'INSERT INTO Product (id_inventory, name, description, price, image) VALUES (?, ?, ?, ?, ?)',
             [Id_inventory, name, description, price, image]);
         return result;
     } catch (e) {
@@ -19,8 +19,15 @@ async function createProduct(product) {
 async function getAllProducts() {
     const conn = await db.getConnection();
     try {
-        const [rows] = await conn.query('SELECT * FROM Product');
+        const [rows] = await conn.query(`
+            SELECT p.*, i.name as inventory_name 
+            FROM Product p 
+            LEFT JOIN Inventory i ON p.id_inventory = i.id_inventory
+        `);
         return rows;
+    } catch (e) {
+        console.error('Error al consultar productos:', e.message);
+        throw e;
     } finally {
         conn.release();
     }

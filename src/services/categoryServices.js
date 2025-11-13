@@ -5,7 +5,7 @@ async function createCategory(category) {
     try {
         const { name, description } = category;
         const [result] = await conn.query(
-            'INSERT INTO category (name, description) VALUES (?, ?)'
+            'INSERT INTO Category (name, description) VALUES (?, ?)',
             [name, description]);
         return result;
     } catch (e) {

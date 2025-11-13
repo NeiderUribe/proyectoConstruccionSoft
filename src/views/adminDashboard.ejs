@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Admin -->
+    <header class="header admin-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>🍔 Panel Administrador</h1>
+                </div>
+                <nav class="nav">
+                    <span class="admin-badge">👤 <%= adminName %></span>
+                    <a href="/admin" class="nav-link active">Dashboard</a>
+                    <a href="/logout" class="nav-link btn-danger">Cerrar Sesión</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content admin-main">
+        <div class="container">
+            <div class="admin-welcome">
+                <h1>Bienvenido, <%= adminName %></h1>
+                <p>Gestiona todas las tablas del sistema</p>
+            </div>
+
+            <% if (error) { %>
+                <div class="alert alert-error">
+                    <strong>Error:</strong> <%= error %>
+                </div>
+            <% } %>
+
+            <% if (success) { %>
+                <div class="alert alert-success">
+                    <strong>Éxito:</strong> <%= success %>
+                </div>
+            <% } %>
+
+            <!-- Cards de Tablas -->
+            <div class="admin-cards-grid">
+                <a href="/admin/clients" class="admin-card">
+                    <div class="admin-card-icon">👥</div>
+                    <h3>Clientes</h3>
+                    <p>Gestiona todos los clientes registrados</p>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="/admin/categories" class="admin-card">
+                    <div class="admin-card-icon">📁</div>
+                    <h3>Categorías</h3>
+                    <p>Administra las categorías de productos</p>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="/admin/inventory" class="admin-card">
+                    <div class="admin-card-icon">📦</div>
+                    <h3>Inventario</h3>
+                    <p>Controla el inventario disponible</p>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="/admin/products" class="admin-card">
+                    <div class="admin-card-icon">🍔</div>
+                    <h3>Productos</h3>
+                    <p>Gestiona los productos del menú</p>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="/admin/orders" class="admin-card">
+                    <div class="admin-card-icon">🛒</div>
+                    <h3>Pedidos</h3>
+                    <p>Visualiza y gestiona todos los pedidos</p>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="/admin/orderdetails" class="admin-card">
+                    <div class="admin-card-icon">📋</div>
+                    <h3>Detalles de Pedidos</h3>
+                    <p>Revisa los detalles de cada pedido</p>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Tierra Querida - Panel Administrador</p>
+        </div>
+    </footer>
+</body>
+</html>
+

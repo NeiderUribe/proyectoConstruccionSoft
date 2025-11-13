@@ -1,4 +1,4 @@
-//configuración de la bse de datos
+//configuración de la base de datos
 const mysql = require('mysql2/promise');
 require('dotenv').config();
 
@@ -44,8 +44,8 @@ async function initDB() {
                 name VARCHAR(100) NOT NULL,
                 description VARCHAR(100) NOT NULL,
                 amount INT,
-                Id_category INT,   
-                FOREIGN KEY (Id_category) REFERENCES Category(id_category),
+                id_category INT,   
+                FOREIGN KEY (id_category) REFERENCES Category(id_category),
                 price DECIMAL(10,2) NOT NULL,
                 unit_measurement VARCHAR(20) NOT NULL
             )
@@ -79,7 +79,7 @@ async function initDB() {
                 id_order INT,
                 FOREIGN KEY (id_order) REFERENCES Orders(id_order),
                 id_product INT,
-                FOREIGN KEY (id_product) REFERENCES Inventory(id_inventory),
+                FOREIGN KEY (id_product) REFERENCES Product(id_Product),
                 amount INT NOT NULL,
                 unit_price DECIMAL(10,2) NOT NULL,
                 subtotal DECIMAL(10,2) NOT NULL            

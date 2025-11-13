@@ -5,7 +5,7 @@ async function createUser(user) {
     try {
         const { name, address, cellular, mail, password } = user;
         const [result] = await conn.query(
-            'INSERT INTO users (name, address, cellular, mail, password) VALUES (?, ?, ?, ?, ?)',
+            'INSERT INTO user (name, address, cellular, mail, password) VALUES (?, ?, ?, ?, ?)',
             [name, address, cellular, mail, password]);
         return result;
     } catch (e) {
@@ -20,10 +20,10 @@ async function createUser(user) {
 async function getAllUsers() {
     const conn = await db.getConnection();
     try {
-        const [rows] = await conn.query('SELECT * FROM users');
+        const [rows] = await conn.query('SELECT * FROM user WHERE is_active = TRUE');
         return rows;
     } catch (e) {
-        onsole.error('Error al consultar usuarios:', e.message);
+        console.error('Error al consultar usuarios:', e.message);
         throw e;
     } finally {
         conn.release();
@@ -34,10 +34,24 @@ async function getAllUsers() {
 async function getUserById(id) {
     const conn = await db.getConnection();
     try {
-        const [rows] = await conn.query('SELECT * FROM users WHERE id_user = ?', [id]);
+        const [rows] = await conn.query('SELECT * FROM user WHERE id_user = ?', [id]);
         return rows[0];
     } catch (e) {
         console.error('Error al consultar usuario por ID:', e.message);
+        throw e;
+    } finally {
+        conn.release();
+    }
+}
+
+// Consultar usuario por email
+async function getUserByEmail(mail) {
+    const conn = await db.getConnection();
+    try {
+        const [rows] = await conn.query('SELECT * FROM user WHERE mail = ?', [mail]);
+        return rows[0];
+    } catch (e) {
+        console.error('Error al consultar usuario por email:', e.message);
         throw e;
     } finally {
         conn.release();
@@ -50,7 +64,7 @@ async function updateUser(id, user) {
     try {
         const { name, address, cellular, mail, password } = user;
         const [result] = await conn.query(
-            'UPDATE users SET name = ?, address = ?, cellular = ?, mail = ?, password = ? WHERE id_user = ?',
+            'UPDATE user SET name = ?, address = ?, cellular = ?, mail = ?, password = ? WHERE id_user = ?',
             [name, address, cellular, mail, password, id]
         );
         return result.affectedRows > 0 ? await getUserById(id) : null;
@@ -62,14 +76,14 @@ async function updateUser(id, user) {
     }
 }
 
-// Eliminar usuario
+// Eliminar usuario (soft delete - cambiar is_active a false)
 async function deleteUser(id) {
     const conn = await db.getConnection();
     try {
         const user = await getUserById(id);
         if (!user) return null;
 
-        await conn.query('DELETE FROM users WHERE id_user = ?', [id]);
+        await conn.query('UPDATE user SET is_active = FALSE WHERE id_user = ?', [id]);
         return user;
     } catch (e) {
         console.error('Error al eliminar usuario:', e.message);
@@ -79,5 +93,5 @@ async function deleteUser(id) {
     }
 }
 
-module.exports = {createUser, getAllUsers, getUserById, updateUser, deleteUser};
+module.exports = {createUser, getAllUsers, getUserById, getUserByEmail, updateUser, deleteUser};
 

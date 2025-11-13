@@ -3,9 +3,10 @@ const router = express.Router();
 const userControllers = require('../controllers/userControllers');
 const { createUserValidator } = require('../validator/usersValidator');
 const { validateResults } = require('../middlewares/validationResult');
+// const { verifytoken } = require('../middlewares/authMiddleware');
 //const userValidator = require('../validator/userValidator');
 
-
+// router.use(verifytoken); // Rutas protegidas - Comentado temporalmente para desarrollo
 
 //get son consultas = select* from table (id, no,nombre)
 //post son inserciones = insert into table (nombre, no)

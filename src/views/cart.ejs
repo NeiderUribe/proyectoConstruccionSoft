@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo"><h1>🍔 Tierra Querida</h1></div>
+                <nav class="nav">
+                    <a href="/menu" class="nav-link">← Menú</a>
+                    <a href="/cart" class="nav-link active">🛒 Carrito</a>
+                    <a href="/logout" class="nav-link">Cerrar Sesión</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Carrito de Compras</h1>
+            </div>
+
+            <% if (cart && cart.length > 0) { %>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Precio Unitario</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% cart.forEach((item, index) => { %>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 1rem;">
+                                            <% if (item.image) { %>
+                                                <img src="<%= item.image %>" alt="<%= item.product_name %>" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                                            <% } else { %>
+                                                <div style="width: 50px; height: 50px; background: #ddd; border-radius: 5px; display: flex; align-items: center; justify-content: center;">🍔</div>
+                                            <% } %>
+                                            <span><%= item.product_name %></span>
+                                        </div>
+                                    </td>
+                                    <td>$<%= parseFloat(item.product_price).toFixed(2) %></td>
+                                    <td><%= item.quantity %></td>
+                                    <td>$<%= parseFloat(item.subtotal).toFixed(2) %></td>
+                                    <td>
+                                        <form action="/cart/remove" method="POST" style="display: inline;">
+                                            <input type="hidden" name="index" value="<%= index %>">
+                                            <button type="submit" class="btn btn-sm btn-delete">Eliminar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                        <tfoot>
+                            <tr style="background: var(--light-color); font-weight: 700;">
+                                <td colspan="3" style="text-align: right;">Total:</td>
+                                <td colspan="2">$<%= parseFloat(total).toFixed(2) %></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div style="margin-top: 2rem; text-align: center;">
+                    <form action="/cart/checkout" method="POST">
+                        <button type="submit" class="btn btn-primary btn-large">Proceder al Pago</button>
+                    </form>
+                </div>
+            <% } else { %>
+                <div class="empty-state">
+                    <p>Tu carrito está vacío</p>
+                    <a href="/menu" class="btn btn-primary">Ver Menú</a>
+                </div>
+            <% } %>
+        </div>
+    </main>
+</body>
+</html>
+

@@ -3,10 +3,10 @@ const db = require('../dataBase/connection');
 async function createOrder(order) {
     const conn = await db.getConnection();
     try {
-        const { Id_user, order_date, Id_product, total } = order;
+        const { Id_user, order_date, total } = order;
         const [result] = await conn.query(
-            'INSERT INTO order (Id_user, order_date, Id_product, total) VALUES (?, ?, ?, ?)',
-            [Id_user, order_date, Id_product, total]);
+            'INSERT INTO Orders (id_user, order_date, total) VALUES (?, ?, ?)',
+            [Id_user, order_date || new Date(), total]);
         return result;
     } catch (e) {
         console.error('Error al crear Pedido:', e.message);
@@ -19,8 +19,16 @@ async function createOrder(order) {
 async function getAllOrders() {
     const conn = await db.getConnection();
     try {
-        const [rows] = await conn.query('SELECT * FROM `Order`');
+        const [rows] = await conn.query(`
+            SELECT o.*, u.name as user_name, u.mail as user_email 
+            FROM Orders o 
+            LEFT JOIN user u ON o.id_user = u.id_user
+            ORDER BY o.order_date DESC
+        `);
         return rows;
+    } catch (e) {
+        console.error('Error al consultar pedidos:', e.message);
+        throw e;
     } finally {
         conn.release();
     }
@@ -29,7 +37,7 @@ async function getAllOrders() {
 async function getOrderById(id) {
     const conn = await db.getConnection();
     try {
-        const [rows] = await conn.query('SELECT * FROM `Order` WHERE id_order = ?', [id]);
+        const [rows] = await conn.query('SELECT * FROM Orders WHERE id_order = ?', [id]);
         return rows[0];
     } finally {
         conn.release();
@@ -41,7 +49,7 @@ async function updateOrder(id, order) {
     try {
         const { id_user, order_date, total } = order;
         await conn.query(
-            'UPDATE `Order` SET id_user = ?, order_date = ?, total = ? WHERE id_order = ?',
+            'UPDATE Orders SET id_user = ?, order_date = ?, total = ? WHERE id_order = ?',
             [id_user, order_date, total, id]
         );
         return await getOrderById(id);
@@ -55,7 +63,7 @@ async function deleteOrder(id) {
     try {
         const order = await getOrderById(id);
         if (!order) return null;
-        await conn.query('DELETE FROM `Order` WHERE id_order = ?', [id]);
+        await conn.query('DELETE FROM Orders WHERE id_order = ?', [id]);
         return order;
     } finally {
         conn.release();

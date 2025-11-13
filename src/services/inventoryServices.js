@@ -5,7 +5,7 @@ async function createInventory(inventory) {
     try {
         const { name, description, amount, category_id, price, unit_measurement } = inventory;
         const [result] = await conn.query(
-            'INSERT INTO inventory (name, description, amount, category_id , price, unit_measurement) VALUES (?, ?, ?, ?, ?, ?)'
+            'INSERT INTO Inventory (name, description, amount, id_category, price, unit_measurement) VALUES (?, ?, ?, ?, ?, ?)',
             [name, description, amount, category_id, price, unit_measurement]);
         return result;
     } catch (e) {
@@ -19,8 +19,15 @@ async function createInventory(inventory) {
 async function getAllInventory() {
     const conn = await db.getConnection();
     try {
-        const [rows] = await conn.query('SELECT * FROM Inventory');
+        const [rows] = await conn.query(`
+            SELECT i.*, c.name as category_name 
+            FROM Inventory i 
+            LEFT JOIN Category c ON i.id_category = c.id_category
+        `);
         return rows;
+    } catch (e) {
+        console.error('Error al consultar inventario:', e.message);
+        throw e;
     } finally {
         conn.release();
     }

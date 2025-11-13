@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header admin-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo"><h1>🍔 Panel Administrador</h1></div>
+                <nav class="nav">
+                    <a href="/admin" class="nav-link">← Dashboard</a>
+                    <a href="/admin/inventory" class="nav-link active">Inventario</a>
+                    <a href="/logout" class="nav-link btn-danger">Cerrar Sesión</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content admin-main">
+        <div class="container">
+            <div class="page-header">
+                <h1>Gestión de Inventario</h1>
+                <a href="/admin/inventory/create" class="btn btn-primary">+ Crear Item</a>
+            </div>
+
+            <% if (error) { %>
+                <div class="alert alert-error"><strong>Error:</strong> <%= error %></div>
+            <% } %>
+
+            <% if (success) { %>
+                <div class="alert alert-success"><strong>Éxito:</strong> <%= success %></div>
+            <% } %>
+
+            <div class="table-container">
+                <% if (inventory && inventory.length > 0) { %>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Categoría</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Unidad</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% inventory.forEach(item => { %>
+                                <tr>
+                                    <td><%= item.id_inventory %></td>
+                                    <td><%= item.name %></td>
+                                    <td><%= item.description %></td>
+                                    <td><%= item.category_name || 'N/A' %></td>
+                                    <td><%= item.amount %></td>
+                                    <td>$<%= parseFloat(item.price).toFixed(2) %></td>
+                                    <td><%= item.unit_measurement %></td>
+                                    <td class="actions">
+                                        <a href="/admin/inventory/edit/<%= item.id_inventory %>" class="btn btn-sm btn-edit">Editar</a>
+                                        <form action="/admin/inventory/delete/<%= item.id_inventory %>" method="POST" style="display: inline;" onsubmit="return confirm('¿Eliminar este item?');">
+                                            <button type="submit" class="btn btn-sm btn-delete">Eliminar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                <% } else { %>
+                    <div class="empty-state">
+                        <p>No hay items en el inventario</p>
+                        <a href="/admin/inventory/create" class="btn btn-primary">Crear primer item</a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+

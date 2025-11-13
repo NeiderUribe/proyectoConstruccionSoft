@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>🍔 Tierra Querida</h1>
+                </div>
+                <nav class="nav">
+                    <a href="/admin" class="nav-link">← Dashboard</a>
+                    <a href="/admin/users" class="nav-link active">Usuarios</a>
+                    <a href="/logout" class="nav-link btn-danger">Cerrar Sesión</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Gestión de Usuarios</h1>
+                <a href="/admin/users/create" class="btn btn-primary">+ Crear Usuario</a>
+            </div>
+
+            <% if (error) { %>
+                <div class="alert alert-error">
+                    <strong>Error:</strong> <%= error %>
+                </div>
+            <% } %>
+
+            <% if (success) { %>
+                <div class="alert alert-success">
+                    <strong>Éxito:</strong> <%= success %>
+                </div>
+            <% } %>
+
+            <div class="table-container">
+                <% if (users && users.length > 0) { %>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Correo</th>
+                                <th>Teléfono</th>
+                                <th>Dirección</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% users.forEach(user => { %>
+                                <tr>
+                                    <td><%= user.id_user %></td>
+                                    <td><%= user.name %></td>
+                                    <td><%= user.mail %></td>
+                                    <td><%= user.cellular || 'N/A' %></td>
+                                    <td><%= user.address || 'N/A' %></td>
+                                    <td>
+                                        <span class="badge <%= user.is_active ? 'badge-success' : 'badge-danger' %>">
+                                            <%= user.is_active ? 'Activo' : 'Inactivo' %>
+                                        </span>
+                                    </td>
+                                    <td class="actions">
+                                        <a href="/admin/users/edit/<%= user.id_user %>" class="btn btn-sm btn-edit">Editar</a>
+                                        <form action="/admin/users/delete/<%= user.id_user %>" method="POST" style="display: inline;" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?');">
+                                            <button type="submit" class="btn btn-sm btn-delete">Eliminar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                <% } else { %>
+                    <div class="empty-state">
+                        <p>No hay usuarios registrados</p>
+                        <a href="/admin/users/create" class="btn btn-primary">Crear primer usuario</a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Tierra Querida. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

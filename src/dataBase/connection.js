@@ -1,15 +1,16 @@
+//configuración de la bse de datos
 const mysql = require('mysql2/promise');
 require('dotenv').config();
 
-//const sequelize = new Sequelize(
+//crear la variable de la conexión
 const pool = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'comidaRapida',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306,
     waitForConnections: true,
-    connectionLimit: 10, //Para limitar la cantidad de peticiones al servidor 
-    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306
+    connectionLimit: 10 //Para limitar la cantidad de peticiones al servidor 
 });
 
 async function initDB() {
@@ -67,8 +68,7 @@ async function initDB() {
                 id_order INT AUTO_INCREMENT PRIMARY KEY,
                 id_user INT,
                 FOREIGN KEY (id_user) REFERENCES user(id_user),
-                order_date DATETIME,
-                date DATETIME DEFAULT CURRENT_TIMESTAMP,
+                order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
                 total DECIMAL(10,2) NOT NULL
             )
         `);

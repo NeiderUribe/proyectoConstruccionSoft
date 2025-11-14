@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>🍔 Tierra Querida</h1>
+                </div>
+                <nav class="nav">
+                    <a href="/admin" class="nav-link">← Dashboard</a>
+                    <a href="/admin/clients" class="nav-link">Clientes</a>
+                    <a href="/logout" class="nav-link btn-danger">Cerrar Sesión</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="form-page">
+                <div class="page-header">
+                    <h1><%= user ? 'Editar Usuario' : 'Crear Usuario' %></h1>
+                    <a href="/users" class="btn btn-outline">← Volver</a>
+                </div>
+
+                <% if (error) { %>
+                    <div class="alert alert-error">
+                        <strong>Error:</strong> <%= error %>
+                    </div>
+                <% } %>
+
+                <form action="<%= action %>" method="POST" class="form-card">
+                    <div class="form-group">
+                        <label for="name">Nombre completo *</label>
+                        <input type="text" id="name" name="name" value="<%= user ? user.name : '' %>" placeholder="Ingrese el nombre completo" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mail">Correo electrónico *</label>
+                        <input type="email" id="mail" name="mail" value="<%= user ? user.mail : '' %>" placeholder="correo@ejemplo.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cellular">Teléfono</label>
+                        <input type="tel" id="cellular" name="cellular" value="<%= user ? user.cellular : '' %>" placeholder="3001234567" pattern="[0-9]{10}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Dirección</label>
+                        <input type="text" id="address" name="address" value="<%= user ? user.address : '' %>" placeholder="Ingrese la dirección">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Contraseña <%= user ? '(dejar vacío para no cambiar)' : '*' %></label>
+                        <input type="password" id="password" name="password" placeholder="Mínimo 6 caracteres" <%= user ? '' : 'required' %> minlength="6">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary"><%= user ? 'Actualizar' : 'Crear' %> Usuario</button>
+                        <a href="/admin/clients" class="btn btn-outline">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Tierra Querida. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

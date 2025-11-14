@@ -1,14 +1,22 @@
-// src/routes/userRoutes.js
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController');
-const { createUserValidator, deleteUserByIdValidator, updateUserValidator/*, getByIdValidator */ } = require('../validator/userValidator');
-const validateResults = require('../middlewares/usersRequest');
+const userControllers = require('../controllers/userControllers');
+const { createUserValidator } = require('../validator/usersValidator');
+const { validateResults } = require('../middlewares/validationResult');
+// const { verifytoken } = require('../middlewares/authMiddleware');
+//const userValidator = require('../validator/userValidator');
 
-router.post('/', createUserValidator, validateResults, userController.createUser);
-router.get('/', userController.listUsers);
-router.get('/:id', userController.getUser);
-router.put('/:id', updateUserValidator, validateResults, userController.updateUser);
-router.delete('/:id', deleteUserByIdValidator, validateResults, userController.deleteUser);
+// router.use(verifytoken); // Rutas protegidas - Comentado temporalmente para desarrollo
+
+//get son consultas = select* from table (id, no,nombre)
+//post son inserciones = insert into table (nombre, no)
+//put son actualizaciones = update table set nombre= 'nuevo' where id=1
+//delete son eliminaciones = delete from table where id=1
+
+router.post('/', createUserValidator, validateResults, userControllers.createUser);
+router.get('/', userControllers.getUsers);
+router.get('/:id', userControllers.getUserById);
+router.put('/:id', createUserValidator, validateResults, userControllers.updateUser);
+router.delete('/:id', userControllers.deleteUser);
 
 module.exports = router;

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo"><h1>🍔 Tierra Querida</h1></div>
+                <nav class="nav">
+                    <a href="/menu" class="nav-link">Menú</a>
+                    <a href="/logout" class="nav-link">Cerrar Sesión</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div style="max-width: 600px; margin: 3rem auto; text-align: center;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">✅</div>
+                <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--success-color);">¡Pedido Exitoso!</h1>
+                <p style="font-size: 1.2rem; color: var(--text-light); margin-bottom: 2rem;">
+                    Gracias por tu compra, <%= userName %>
+                </p>
+                
+                <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: var(--shadow); margin-bottom: 2rem;">
+                    <h2 style="margin-bottom: 1rem;">Detalles del Pedido</h2>
+                    <p><strong>Número de Pedido:</strong> #<%= order.id_order %></p>
+                    <p><strong>Total:</strong> $<%= parseFloat(order.total).toFixed(2) %></p>
+                    <p><strong>Fecha:</strong> <%= new Date(order.order_date).toLocaleDateString('es-CO') %></p>
+                </div>
+
+                <div style="background: var(--light-color); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+                    <p style="color: var(--text-dark);">
+                        🏍️ Tu pedido está siendo preparado y será entregado pronto.
+                    </p>
+                    <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 0.5rem;">
+                        Recibirás una confirmación por correo electrónico.
+                    </p>
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="/menu" class="btn btn-primary">Hacer Otro Pedido</a>
+                    <a href="/" class="btn btn-outline">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+

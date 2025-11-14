@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Righteous&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-background">
+            <div class="auth-pattern"></div>
+        </div>
+        <div class="auth-container">
+            <div class="auth-header">
+                <a href="/" class="logo-link">🍔 Tierra Querida</a>
+                <h2>Iniciar Sesión</h2>
+                <p class="auth-note">Elige cómo quieres ingresar</p>
+            </div>
+
+            <% if (error) { %>
+                <div class="alert alert-error">
+                    <strong>Error:</strong> <%= error %>
+                </div>
+            <% } %>
+
+            <% if (success) { %>
+                <div class="alert alert-success">
+                    <strong>Éxito:</strong> <%= success %>
+                </div>
+            <% } %>
+
+            <!-- Opciones de Login -->
+            <div class="login-options">
+                <a href="/login/user" class="login-option-card">
+                    <div class="option-icon">👤</div>
+                    <h3>Usuario</h3>
+                    <p>Regístrate y haz tu pedido</p>
+                    <span class="option-arrow">→</span>
+                </a>
+                
+                <a href="/login/admin" class="login-option-card admin-card">
+                    <div class="option-icon">🔐</div>
+                    <h3>Administrador</h3>
+                    <p>Gestiona todas las tablas</p>
+                    <span class="option-arrow">→</span>
+                </a>
+            </div>
+
+            <div class="auth-footer">
+                <a href="/" class="back-link">← Volver al inicio</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

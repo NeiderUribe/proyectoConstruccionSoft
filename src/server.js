@@ -1,9 +1,14 @@
-//Aca levantamos el servidor y la conexion
-const app = require('./app');
-const dotenv = require('dotenv'); //Esta variable se encarga de las variables de entorno
+//Representa la conexión del servidor con el cliente
+// Cargar variables de entorno PRIMERO
+const dotenv = require('dotenv');
 dotenv.config();
-const PORT = process.env.PORT || 8084;
 
-app.listen(PORT, ()=>{
-    console.log(`Servidor ejecutandose en el puerto ${PORT}`);
-})
+// Inicializar la conexión a la base de datos
+require('./dataBase/connection');
+
+const app = require('../app');
+const PORT = process.env.PORT || process.env.DB_PUERTO || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
+});

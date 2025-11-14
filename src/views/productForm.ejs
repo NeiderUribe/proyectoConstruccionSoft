@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header admin-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo"><h1>🍔 Panel Administrador</h1></div>
+                <nav class="nav">
+                    <a href="/admin" class="nav-link">← Dashboard</a>
+                    <a href="/admin/products" class="nav-link">Productos</a>
+                    <a href="/logout" class="nav-link btn-danger">Cerrar Sesión</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content admin-main">
+        <div class="container">
+            <div class="form-page">
+                <div class="page-header">
+                    <h1><%= product ? 'Editar Producto' : 'Crear Producto' %></h1>
+                    <a href="/admin/products" class="btn btn-outline">← Volver</a>
+                </div>
+
+                <% if (error) { %>
+                    <div class="alert alert-error"><strong>Error:</strong> <%= error %></div>
+                <% } %>
+
+                <form action="<%= action %>" method="POST" class="form-card">
+                    <div class="form-group">
+                        <label for="id_inventory">Inventario *</label>
+                        <select id="id_inventory" name="id_inventory" required>
+                            <option value="">Seleccione un item de inventario</option>
+                            <% inventory.forEach(item => { %>
+                                <option value="<%= item.id_inventory %>" <%= product && product.id_inventory == item.id_inventory ? 'selected' : '' %>>
+                                    <%= item.name %> - <%= item.category_name || '' %>
+                                </option>
+                            <% }); %>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Nombre *</label>
+                        <input type="text" id="name" name="name" value="<%= product ? product.name : '' %>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Descripción *</label>
+                        <input type="text" id="description" name="description" value="<%= product ? product.description : '' %>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">Precio *</label>
+                        <input type="number" id="price" name="price" step="0.01" value="<%= product ? product.price : '' %>" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="image">URL de Imagen</label>
+                        <input type="url" id="image" name="image" value="<%= product ? product.image : '' %>" placeholder="https://ejemplo.com/imagen.jpg">
+                        <small style="color: #666; font-size: 0.9rem;">Puedes usar URLs de imágenes 3D o de productos</small>
+                    </div>
+
+                    <% if (product && product.image) { %>
+                        <div class="form-group">
+                            <label>Imagen Actual</label>
+                            <img src="<%= product.image %>" alt="Preview" style="max-width: 200px; border-radius: 10px; margin-top: 10px;">
+                        </div>
+                    <% } %>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary"><%= product ? 'Actualizar' : 'Crear' %> Producto</button>
+                        <a href="/admin/products" class="btn btn-outline">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+

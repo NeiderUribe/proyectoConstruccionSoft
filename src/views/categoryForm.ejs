@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header admin-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo"><h1>🍔 Panel Administrador</h1></div>
+                <nav class="nav">
+                    <a href="/admin" class="nav-link">← Dashboard</a>
+                    <a href="/admin/categories" class="nav-link">Categorías</a>
+                    <a href="/logout" class="nav-link btn-danger">Cerrar Sesión</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content admin-main">
+        <div class="container">
+            <div class="form-page">
+                <div class="page-header">
+                    <h1><%= category ? 'Editar Categoría' : 'Crear Categoría' %></h1>
+                    <a href="/admin/categories" class="btn btn-outline">← Volver</a>
+                </div>
+
+                <% if (error) { %>
+                    <div class="alert alert-error"><strong>Error:</strong> <%= error %></div>
+                <% } %>
+
+                <form action="<%= action %>" method="POST" class="form-card">
+                    <div class="form-group">
+                        <label for="name">Nombre *</label>
+                        <input type="text" id="name" name="name" value="<%= category ? category.name : '' %>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Descripción *</label>
+                        <input type="text" id="description" name="description" value="<%= category ? category.description : '' %>" required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary"><%= category ? 'Actualizar' : 'Crear' %> Categoría</button>
+                        <a href="/admin/categories" class="btn btn-outline">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+
